@@ -1,4 +1,3 @@
-import 'package:flutter_clean/domain/entities/account_entity.dart';
 import 'package:meta/meta.dart';
 
 import 'package:flutter_clean/data/http/http.dart';
