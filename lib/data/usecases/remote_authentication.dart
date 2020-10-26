@@ -1,7 +1,8 @@
+import 'package:flutter_clean/domain/helpers/domain_error.dart';
 import 'package:meta/meta.dart';
 
-import 'package:flutter_clean/data/http/http.dart';
-import 'package:flutter_clean/domain/usecases/usecases.dart';
+import '../http/http.dart';
+import '../../domain/usecases/usecases.dart';
 
 class RemoteAuthentication {
   final HttpClient httpClient;
@@ -13,11 +14,16 @@ class RemoteAuthentication {
   });
 
   Future<void> auth(AuthentincationParams params) async {
-    await httpClient.request(
-      url: url,
-      method: 'post',
-      body: RemoteAuthenticationParams.fromDomain(params).toJson(),
-    );
+    final body = RemoteAuthenticationParams.fromDomain(params).toJson();
+    try {
+      await httpClient.request(
+        url: url,
+        method: 'post',
+        body: body,
+      );
+    } on HttpError {
+      throw DomainError.unexpected;
+    }
   }
 }
 
